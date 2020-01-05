@@ -1,5 +1,4 @@
 import 'package:quantum/core/data.dart';
-import 'package:quantum/core/engine.dart';
 import 'package:quantum/core/process.dart';
 
 class Trace {
@@ -7,6 +6,8 @@ class Trace {
   List<int> _instructions;
   Status _status;
   int _break;
+
+  final int quantum = 4;
 
   Trace.withBreak(this._process, this._status, this._break) {
     initialize();
@@ -18,16 +19,15 @@ class Trace {
 
   Trace.initial(this._process, this._status) {
     _instructions = List();
-    for (var i = 0; i < _process.cpu * Engine.instance.quantum; i++)
-      _instructions.add(i);
+    for (var i = 0; i < _process.cpu * quantum; i++) _instructions.add(i);
   }
 
   Trace();
 
   void initialize() {
     _instructions = List();
-    int n = _process.stage * Engine.instance.quantum;
-    for (int i = n - Engine.instance.quantum; i < n; i++) _instructions.add(i);
+    int n = _process.stage * quantum;
+    for (int i = n - quantum; i < n; i++) _instructions.add(i);
   }
 
   String get process => '$_process';

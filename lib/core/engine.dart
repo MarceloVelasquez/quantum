@@ -6,34 +6,28 @@ import 'package:quantum/core/quantum.dart';
 import 'package:quantum/core/trace.dart';
 
 class Engine {
-  static final Engine instance = Engine._constructor();
-
   Data _data;
-  Output _output;
   Processor _processor;
   Quantum _quantum;
+  Output _output;
 
-  Engine._constructor();
-
-  List<Process> get processes => _data.processes;
   Output get output => _output;
-  int get quantum => _data.quantum;
+
+  Engine();
 
   void _initialize(Data data) {
-    this._data = data;
-    this._data.initialize();
-
-    _output = Output();
+    _data = data;
     _processor = Processor(_data.structures);
     _quantum = Quantum();
+    _output = Output();
   }
 
-  void addQuantum(Quantum quantum) {
+  void _addQuantum(Quantum quantum) {
     _output.addQuantum(quantum);
     _quantum = Quantum();
   }
 
-  void addTrace(Type type, [Process process, Status status, int blocker]) {
+  void _addTrace(Type type, [Process process, Status status, int blocker]) {
     switch (type) {
       case Type.empty:
         _quantum.addTrace(Trace());
@@ -60,17 +54,17 @@ class Engine {
     int quantumCounter = 1;
 
     _data.processes.forEach((process) {
-      addTrace(Type.initial, process, Status.newed);
+      _addTrace(Type.initial, process, Status.newed);
     });
 
-    addQuantum(_quantum);
+    _addQuantum(_quantum);
 
     while (_processor.newed.isNotEmpty) {
       process = _processor.newed.takeProcess();
-      addTrace(Type.initial, process, Status.ready);
+      _addTrace(Type.initial, process, Status.ready);
     }
 
-    addQuantum(_quantum);
+    _addQuantum(_quantum);
 
     while (_processor.isRunning) {
       process = _processor.ready.takeProcess();
@@ -79,17 +73,17 @@ class Engine {
         _quantum.addTrace(Trace());
       else {
         process.stage++;
-        addTrace(Type.generic, process, Status.inAction);
+        _addTrace(Type.generic, process, Status.inAction);
 
         process = _processor.inAction.takeProcess();
 
         if (process.isLocked) {
           process.out = quantumCounter + _data.memory(process.blocker);
-          addTrace(Type.blocked, process, Status.locked, process.blocker);
+          _addTrace(Type.blocked, process, Status.locked, process.blocker);
         } else if (process.isFinished) {
-          addTrace(Type.generic, process, Status.finished);
+          _addTrace(Type.generic, process, Status.finished);
         } else {
-          addTrace(Type.generic, process, Status.ready);
+          _addTrace(Type.generic, process, Status.ready);
         }
       }
 
@@ -98,12 +92,12 @@ class Engine {
         processes.forEach((process) {
           if (_data.das(process.blocker) != null) {
             process.out = quantumCounter + _data.das(process.blocker);
-            addTrace(Type.blocked, process, Status.suspended, process.blocker);
+            _addTrace(Type.blocked, process, Status.suspended, process.blocker);
           } else {
             if (process.isFinished) {
-              addTrace(Type.generic, process, Status.lost);
+              _addTrace(Type.generic, process, Status.lost);
             } else {
-              addTrace(Type.generic, process, Status.ready);
+              _addTrace(Type.generic, process, Status.ready);
             }
           }
         });
@@ -113,14 +107,14 @@ class Engine {
       if (processes != null) {
         processes.forEach((process) {
           if (process.isFinished) {
-            addTrace(Type.generic, process, Status.lost);
+            _addTrace(Type.generic, process, Status.lost);
           } else {
-            addTrace(Type.generic, process, Status.ready);
+            _addTrace(Type.generic, process, Status.ready);
           }
         });
       }
 
-      addQuantum(_quantum);
+      _addQuantum(_quantum);
       quantumCounter++;
     }
   }

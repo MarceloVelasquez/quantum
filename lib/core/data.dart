@@ -19,18 +19,10 @@ class Data {
   List<Process> _processes;
   InputRules _inputRules;
   BreakRules _breakRules;
-  int _quantum;
 
-  Data(this._processes, this._inputRules, this._breakRules, this._quantum);
+  Data(this._processes, this._inputRules, this._breakRules);
 
-  void initialize() => _inputRules.structures.forEach((e) => e.initialize());
-
-  int get quantum => _quantum;
-
-  List<Process> get processes {
-    _processes.sort((a, b) => a.arrivalTime.compareTo(b.arrivalTime));
-    return _processes;
-  }
+  List<Process> get processes => _processes;
 
   List<Structure> get structures {
     List<Structure> structures = List();
@@ -42,4 +34,25 @@ class Data {
 
   int memory(int id) => _breakRules.breakRule(id).memory;
   int das(int id) => _breakRules.breakRule(id).das;
+}
+
+class DataBuilder {
+  List<Process> _processes;
+  InputRules _inputRules;
+  BreakRules _breakRules;
+
+  DataBuilder();
+
+  set processes(value) => _processes = value;
+  set inputRules(value) => _inputRules = value;
+  set breakRules(value) => _breakRules = value;
+
+  Data build() {
+    _processes.sort((a, b) => a.arrivalTime.compareTo(b.arrivalTime));
+    _inputRules.structures.forEach((e) => e.initialize(_processes));
+
+    return _processes != null && _inputRules != null && _breakRules != null
+        ? Data(_processes, _inputRules, _breakRules)
+        : null;
+  }
 }

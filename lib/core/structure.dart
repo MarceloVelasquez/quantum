@@ -1,5 +1,4 @@
 import 'package:quantum/core/data.dart';
-import 'package:quantum/core/manager.dart';
 import 'package:quantum/core/process.dart';
 
 abstract class Structure {
@@ -59,14 +58,14 @@ abstract class Structure {
   String toString() => _list.toString();
 
   int _getIndexProcess(List<Process> list);
-  void initialize();
+  void initialize(List<Process> processes);
 }
 
 class StructureQueue extends Structure {
   StructureQueue(Status name) : super(name);
 
   @override
-  void initialize() {}
+  void initialize(List<Process> processes) {}
 
   @override
   int _getIndexProcess(List<Process> list) => 0;
@@ -76,7 +75,7 @@ class StructureHeap extends Structure {
   StructureHeap(Status name) : super(name);
 
   @override
-  void initialize() {}
+  void initialize(List<Process> processes) {}
 
   @override
   int _getIndexProcess(List<Process> list) => list.length - 1;
@@ -91,7 +90,15 @@ class StructurePriority extends Structure {
   List<int> get processes => _processes;
 
   @override
-  void initialize() => _processes = Manager.orderProcesses(_priorities);
+  void initialize(List<Process> processes) {
+    List<Process> orderProcesses = new List();
+
+    _priorities.forEach((p) {
+      orderProcesses.addAll(processes.where((x) => p == x.priority));
+    });
+
+    _processes = orderProcesses.map((n) => n.id).toList();
+  }
 
   @override
   int _getIndexProcess(List<Process> list) {
