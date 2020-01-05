@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:quantum/core/break.dart';
 import 'package:quantum/core/data.dart';
 import 'package:quantum/core/engine.dart';
 import 'package:quantum/core/process.dart';
 import 'package:quantum/core/rules.dart';
 import 'package:quantum/core/structure.dart';
+import 'package:quantum/src/pages/page_home.dart';
+import 'package:quantum/src/pages/page_simulator.dart';
 
 void main() {
   int quantum = 4;
@@ -29,4 +33,28 @@ void main() {
 
   Engine.instance.execute(data);
   print(Engine.instance.output);
+
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    routes: {
+      '/home': (context) => PageHome(),
+      '/simulator': (context) => PageSimulator(),
+    },
+    title: 'Quantum',
+    theme: ThemeData(
+      brightness: Brightness.light,
+      primaryColor: Colors.red[400],
+      primarySwatch: Colors.red,
+      accentColor: Colors.redAccent[700],
+      fontFamily: 'Roboto',
+      textTheme: TextTheme(
+        headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+        title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+        body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+      ),
+    ),
+    home: PageHome(),
+  ));
+
+  SystemChrome.setEnabledSystemUIOverlays([]);
 }
