@@ -13,7 +13,7 @@ class SimulateButton extends StatelessWidget {
         Provider.of<OutputModel>(context, listen: false).executeData(data);
         Navigator.pushNamed(context, '/simulator');
       },
-      child: Text('SIMULATE'),
+      child: Text('Ejecutar'),
     );
   }
 }

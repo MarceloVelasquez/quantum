@@ -23,13 +23,13 @@ class SectionStates extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Expanded(
-                child: Center(child: Text('Process', style: titleStyle)),
+                child: Center(child: Text('Proces', style: titleStyle)),
               ),
               Expanded(
-                child: Center(child: Text('Advance', style: titleStyle)),
+                child: Center(child: Text('Avance', style: titleStyle)),
               ),
               Expanded(
-                child: Center(child: Text('State', style: titleStyle)),
+                child: Center(child: Text('Estado', style: titleStyle)),
               ),
             ],
           ),

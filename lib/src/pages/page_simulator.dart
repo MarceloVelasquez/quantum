@@ -32,15 +32,15 @@ class _PageSimulatorState extends State<PageSimulator> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.account_balance_wallet),
-            title: Text('Data structure'),
+            title: Text('Estructura'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.assignment),
-            title: Text('States'),
+            title: Text('Estados'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.insert_chart),
-            title: Text('Process chart'),
+            title: Text('Gráfico'),
           ),
         ],
       ),

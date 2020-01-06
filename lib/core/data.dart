@@ -6,13 +6,13 @@ enum Status { newed, ready, inAction, locked, suspended, finished, lost }
 enum Type { initial, blocked, empty, generic }
 
 const Map<Status, String> StatusName = {
-  Status.newed: "N",
-  Status.ready: "L",
-  Status.inAction: "E",
-  Status.locked: "B",
-  Status.suspended: "S",
-  Status.finished: "T",
-  Status.lost: "P"
+  Status.newed: "Nuevo",
+  Status.ready: "Listo",
+  Status.inAction: "En ejecución",
+  Status.locked: "Bloqueado",
+  Status.suspended: "Suspendido",
+  Status.finished: "Terminado",
+  Status.lost: "Perdido"
 };
 
 class Data {
