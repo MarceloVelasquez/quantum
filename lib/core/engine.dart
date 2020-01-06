@@ -11,13 +11,16 @@ class Engine {
   Quantum _quantum;
   Output _output;
 
-  Output get output => _output;
-
   Engine();
+
+  Output generate(Data data) {
+    _execute(data);
+    return _output;
+  }
 
   void _initialize(Data data) {
     _data = data;
-    _processor = Processor(_data.structures);
+    _processor = Processor(data.structures);
     _quantum = Quantum();
     _output = Output();
   }
@@ -47,7 +50,7 @@ class Engine {
     _processor.fromStatus(status).putProcess(process);
   }
 
-  void execute(Data data) {
+  void _execute(Data data) {
     _initialize(data);
 
     Process process;
