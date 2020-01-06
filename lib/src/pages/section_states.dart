@@ -23,7 +23,7 @@ class SectionStates extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Expanded(
-                child: Center(child: Text('Proces', style: titleStyle)),
+                child: Center(child: Text('Proceso', style: titleStyle)),
               ),
               Expanded(
                 child: Center(child: Text('Avance', style: titleStyle)),
