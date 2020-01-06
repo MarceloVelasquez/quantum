@@ -25,7 +25,4 @@ class Process {
     stage = 0;
     out = null;
   }
-
-  @override
-  String toString() => 'P$_id';
 }

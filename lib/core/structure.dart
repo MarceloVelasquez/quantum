@@ -56,9 +56,6 @@ abstract class Structure {
 
   int _getIndexProcess(List<Process> list);
   void initialize(List<Process> processes);
-
-  @override
-  String toString() => _list.toString();
 }
 
 class StructureQueue extends Structure {

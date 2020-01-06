@@ -9,7 +9,7 @@ class Trace {
 
   final int quantum = 4;
 
-  String get process => '$_process';
+  String get process => _process.id.toString();
   String get advance => '${_instructions.first}-${_instructions.last}';
   String get status => StatusName[_status];
   String get idBreak => _break != null ? '($_break)' : '';
@@ -33,12 +33,5 @@ class Trace {
     _instructions = List();
     int n = _process.stage * quantum;
     for (int i = n - quantum; i < n; i++) _instructions.add(i);
-  }
-
-  @override
-  String toString() {
-    return isEmpty
-        ? ' Tiempo muerto'
-        : ' $_process $advance ${StatusName[_status]}$idBreak';
   }
 }

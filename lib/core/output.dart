@@ -12,13 +12,4 @@ class Output {
   void addQuantum(Quantum quantum) {
     _quantums.add(quantum);
   }
-
-  @override
-  String toString() {
-    String string = '';
-    _quantums.forEach((quantum) {
-      string += quantum.toString() + '\n';
-    });
-    return string;
-  }
 }
