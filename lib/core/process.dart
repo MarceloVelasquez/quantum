@@ -21,6 +21,11 @@ class Process {
   bool get isFinished => _cpu == stage;
   int get blocker => _breaks.byStage(stage);
 
+  void initialize() {
+    stage = 0;
+    out = null;
+  }
+
   @override
   String toString() => 'P$_id';
 }

@@ -17,20 +17,13 @@ const Map<Status, String> StatusName = {
 
 class Data {
   List<Process> _processes;
-  InputRules _inputRules;
   BreakRules _breakRules;
+  List<Structure> _structures;
 
-  Data(this._processes, this._inputRules, this._breakRules);
+  Data(this._processes, this._breakRules, this._structures);
 
   List<Process> get processes => _processes;
-
-  List<Structure> get structures {
-    List<Structure> structures = List();
-    _inputRules.structures.forEach((structure) {
-      structures.add(structure);
-    });
-    return structures;
-  }
+  List<Structure> get structures => _structures;
 
   int memory(int id) => _breakRules.breakRule(id).memory;
   int das(int id) => _breakRules.breakRule(id).das;
@@ -48,11 +41,22 @@ class DataBuilder {
   set breakRules(value) => _breakRules = value;
 
   Data build() {
+    initialize();
+
     _processes.sort((a, b) => a.arrivalTime.compareTo(b.arrivalTime));
     _inputRules.structures.forEach((e) => e.initialize(_processes));
 
+    List<Structure> structures = List();
+    _inputRules.structures.forEach((structure) {
+      structures.add(structure);
+    });
+
     return _processes != null && _inputRules != null && _breakRules != null
-        ? Data(_processes, _inputRules, _breakRules)
+        ? Data(_processes, _breakRules, structures)
         : null;
+  }
+
+  void initialize() {
+    _processes.forEach((process) => process.initialize());
   }
 }
