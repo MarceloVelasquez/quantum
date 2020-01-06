@@ -30,9 +30,19 @@ void main() {
         accentColor: Colors.redAccent[700],
         fontFamily: 'Roboto',
         textTheme: TextTheme(
-          headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
           title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
           body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+        ),
+        appBarTheme: AppBarTheme(
+          color: Colors.transparent,
+          elevation: 0,
+          textTheme: TextTheme(
+            title: TextStyle(
+              fontSize: 18.0,
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ),
       home: PageHome(),

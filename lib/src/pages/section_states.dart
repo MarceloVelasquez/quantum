@@ -9,10 +9,6 @@ class SectionStates extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var quantums = Provider.of<OutputModel>(context).quantums;
-    var titleStyle = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: Theme.of(context).typography.dense.subhead.fontSize,
-    );
 
     return Scaffold(
       appBar: AppBar(
@@ -22,15 +18,9 @@ class SectionStates extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Expanded(
-                child: Center(child: Text('Proceso', style: titleStyle)),
-              ),
-              Expanded(
-                child: Center(child: Text('Avance', style: titleStyle)),
-              ),
-              Expanded(
-                child: Center(child: Text('Estado', style: titleStyle)),
-              ),
+              Expanded(child: Center(child: Text('Proceso'))),
+              Expanded(child: Center(child: Text('Avance'))),
+              Expanded(child: Center(child: Text('Estado'))),
             ],
           ),
         ),
