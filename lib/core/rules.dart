@@ -17,24 +17,23 @@ class BreakRule {
 class BreakRules {
   List<BreakRule> _breaks;
 
-  BreakRules(this._breaks);
-
   List<BreakRule> get breaks => _breaks;
+  bool get isBreaking => true;
+
+  BreakRules(this._breaks);
 
   BreakRule breakRule(int idBreak) =>
       _breaks.firstWhere((BreakRule breakRule) => breakRule._break == idBreak);
-
-  bool get isBreaking => true;
 }
 
 class InputRules {
   List<Structure> _structures;
+
+  List<Structure> get structures => _structures;
 
   InputRules(this._structures) {
     _structures.add(StructureQueue(Status.finished));
     _structures.add(StructureQueue(Status.inAction));
     _structures.add(StructureQueue(Status.lost));
   }
-
-  List<Structure> get structures => _structures;
 }

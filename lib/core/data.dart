@@ -20,10 +20,10 @@ class Data {
   BreakRules _breakRules;
   List<Structure> _structures;
 
-  Data(this._processes, this._breakRules, this._structures);
-
   List<Process> get processes => _processes;
   List<Structure> get structures => _structures;
+
+  Data(this._processes, this._breakRules, this._structures);
 
   int memory(int id) => _breakRules.breakRule(id).memory;
   int das(int id) => _breakRules.breakRule(id).das;
@@ -34,11 +34,15 @@ class DataBuilder {
   InputRules _inputRules;
   BreakRules _breakRules;
 
-  DataBuilder();
-
   set processes(value) => _processes = value;
   set inputRules(value) => _inputRules = value;
   set breakRules(value) => _breakRules = value;
+
+  DataBuilder();
+
+  void initialize() {
+    _processes.forEach((process) => process.initialize());
+  }
 
   Data build() {
     initialize();
@@ -54,9 +58,5 @@ class DataBuilder {
     return _processes != null && _inputRules != null && _breakRules != null
         ? Data(_processes, _breakRules, structures)
         : null;
-  }
-
-  void initialize() {
-    _processes.forEach((process) => process.initialize());
   }
 }

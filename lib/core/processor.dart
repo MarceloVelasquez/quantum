@@ -4,8 +4,6 @@ import 'package:quantum/core/structure.dart';
 class Processor {
   List<Structure> _structures;
 
-  Processor(this._structures);
-
   Structure get newed =>
       _structures.firstWhere((struct) => struct.name == Status.newed);
   Structure get ready =>
@@ -26,4 +24,6 @@ class Processor {
 
   bool get isRunning =>
       ready.isNotEmpty || locked.isNotEmpty || suspended.isNotEmpty;
+
+  Processor(this._structures);
 }

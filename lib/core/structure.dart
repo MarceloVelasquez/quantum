@@ -5,13 +5,13 @@ abstract class Structure {
   List<Process> _list;
   Status _name;
 
-  Structure(this._name) {
-    _list = new List();
-  }
-
   Status get name => _name;
   bool get isNotEmpty => _list.isNotEmpty;
   int get length => _list.length;
+
+  Structure(this._name) {
+    _list = new List();
+  }
 
   void putProcess(Process process) {
     _list.add(process);
@@ -54,11 +54,11 @@ abstract class Structure {
     return null;
   }
 
-  @override
-  String toString() => _list.toString();
-
   int _getIndexProcess(List<Process> list);
   void initialize(List<Process> processes);
+
+  @override
+  String toString() => _list.toString();
 }
 
 class StructureQueue extends Structure {
@@ -85,9 +85,9 @@ class StructurePriority extends Structure {
   List<int> _processes;
   List<int> _priorities;
 
-  StructurePriority(Status name, this._priorities) : super(name);
-
   List<int> get processes => _processes;
+
+  StructurePriority(Status name, this._priorities) : super(name);
 
   @override
   void initialize(List<Process> processes) {

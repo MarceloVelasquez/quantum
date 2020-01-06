@@ -2,10 +2,10 @@ class Break {
   int _id;
   int _value;
 
-  Break(this._id, this._value);
-
   int get id => _id;
   int get value => _value;
+
+  Break(this._id, this._value);
 }
 
 class Breaks {
