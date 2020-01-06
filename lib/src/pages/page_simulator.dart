@@ -21,9 +21,13 @@ class _PageSimulatorState extends State<PageSimulator> {
 
   @override
   Widget build(BuildContext context) {
+    double overline = Theme.of(context).textTheme.caption.fontSize;
+
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedPage,
+        selectedFontSize: overline,
+        unselectedFontSize: overline,
         onTap: (int index) => setState(() => _selectedPage = index),
         items: [
           BottomNavigationBarItem(
