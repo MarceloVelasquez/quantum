@@ -9,40 +9,43 @@ class SectionStates extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var quantums = Provider.of<OutputModel>(context).quantums;
-    var style = TextStyle(
-      color: Theme.of(context).primaryColor,
+    var titleStyle = TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: Theme.of(context).textTheme.subhead.fontSize,
+      fontSize: Theme.of(context).typography.dense.subhead.fontSize,
     );
 
-    return Stack(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(top: tileSize * 1.5),
-          child: ListView.separated(
-            separatorBuilder: (context, index) {
-              return Divider();
-            },
-            itemCount: quantums.length,
-            itemBuilder: (context, index) {
-              return QuantumItem(
-                traces: quantums[index].traces,
-              );
-            },
-          ),
-        ),
-        Container(
-          height: tileSize * 1.5,
+    return Scaffold(
+      appBar: AppBar(
+        titleSpacing: 0,
+        automaticallyImplyLeading: false,
+        title: Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Expanded(child: Center(child: Text('Process', style: style))),
-              Expanded(child: Center(child: Text('Advance', style: style))),
-              Expanded(child: Center(child: Text('State', style: style))),
+              Expanded(
+                child: Center(child: Text('Process', style: titleStyle)),
+              ),
+              Expanded(
+                child: Center(child: Text('Advance', style: titleStyle)),
+              ),
+              Expanded(
+                child: Center(child: Text('State', style: titleStyle)),
+              ),
             ],
           ),
         ),
-      ],
+      ),
+      body: ListView.separated(
+        separatorBuilder: (context, index) {
+          return Divider();
+        },
+        itemCount: quantums.length,
+        itemBuilder: (context, index) {
+          return QuantumItem(
+            traces: quantums[index].traces,
+          );
+        },
+      ),
     );
   }
 }

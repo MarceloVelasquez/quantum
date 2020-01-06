@@ -38,6 +38,4 @@ void main() {
       home: PageHome(),
     ),
   ));
-
-  SystemChrome.setEnabledSystemUIOverlays([]);
 }
