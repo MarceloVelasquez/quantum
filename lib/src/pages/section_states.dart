@@ -107,6 +107,5 @@ class TraceItem extends StatelessWidget {
       height: tileSize,
       child: traceWidget,
     );
-    ;
   }
 }
