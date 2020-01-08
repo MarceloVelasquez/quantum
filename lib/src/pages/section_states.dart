@@ -97,7 +97,7 @@ class TraceItem extends StatelessWidget {
             child: Center(child: Text(trace.advance)),
           ),
           Expanded(
-            child: Center(child: Text(trace.status + trace.idBreak)),
+            child: Center(child: Text(trace.statusName + trace.idBreak)),
           ),
         ],
       );
