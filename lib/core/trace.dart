@@ -9,10 +9,12 @@ class Trace {
 
   final int quantum = 4;
 
+  int get id => _process.id;
   String get process => _process.id.toString();
   String get advance => '${_instructions.first}-${_instructions.last}';
-  String get status => StatusName[_status];
+  String get statusName => StatusName[_status];
   String get idBreak => _break != null ? '($_break)' : '';
+  Status get status => _status;
   bool get isEmpty => _instructions == null;
 
   Trace();

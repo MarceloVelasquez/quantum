@@ -8,6 +8,7 @@ class OutputModel with ChangeNotifier {
 
   Output get output => _output;
   List<Quantum> get quantums => _output.quantums;
+  List<Trace> get traces => _output.traces;
 
   void executeData(Data data) {
     _output = _engine.generate(data);
