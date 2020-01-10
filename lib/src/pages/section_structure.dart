@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:quantum/core.dart';
 import 'package:quantum/src/models/structure_model.dart';
 import 'package:quantum/src/models/output_model.dart';
+import 'package:quantum/src/widgets/display_panel.dart';
 
 class SectionStructure extends StatelessWidget {
   @override
@@ -51,13 +52,9 @@ class SectionStructure extends StatelessWidget {
               ),
               Expanded(
                 flex: 1,
-                child: Consumer<StructureModel>(
-                  builder: (_, model, child) {
-                    return FlatButton(
-                      onPressed: () => model.execute(),
-                      child: Text('Correr'),
-                    );
-                  },
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  child: DisplayPanel(),
                 ),
               )
             ],
@@ -108,12 +105,12 @@ class ProcessItem extends StatelessWidget {
   final int id;
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 500),
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: 100),
       child: AspectRatio(
         aspectRatio: 1,
         child: Container(
-          margin: EdgeInsets.all(4),
+          margin: EdgeInsets.all(2),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10)),
             color: Theme.of(context).textTheme.caption.color,

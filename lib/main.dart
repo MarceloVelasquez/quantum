@@ -17,7 +17,6 @@ void main() {
       ),
     ],
     child: MaterialApp(
-      debugShowCheckedModeBanner: false,
       routes: {
         '/home': (context) => PageHome(),
         '/simulator': (context) => PageSimulator(),
@@ -27,6 +26,7 @@ void main() {
         brightness: Brightness.light,
         primaryColor: Colors.red,
         primarySwatch: Colors.red,
+        cursorColor: Color(0x10000000),
         accentColor: Colors.redAccent[700],
         fontFamily: 'Roboto',
         textTheme: TextTheme(

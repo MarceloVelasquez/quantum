@@ -12,13 +12,18 @@ class StructureModel with ChangeNotifier {
   List<int> _finished = [];
   List<int> _lost = [];
 
+  int _counter;
+
+  Trace _trace;
+  Trace get actualTrace => _trace;
+  bool get isDone => _traces.length == _counter;
+
   Map<Status, List<int>> structures;
 
   StructureModel(this._traces) {
-    _newed = _traces
-        .where((trace) => trace.status == Status.newed)
-        .map((trace) => trace.id)
-        .toList();
+    var newed = _traces.where((trace) => trace.status == Status.newed);
+    _newed = newed.map((trace) => trace.id).toList();
+    _counter = newed.length;
     structures = {
       Status.newed: _newed,
       Status.ready: _ready,
@@ -37,14 +42,16 @@ class StructureModel with ChangeNotifier {
   void add(Status status, int id) {
     removeProcess(id);
     structures[status].add(id);
-    notifyListeners();
   }
 
-  void execute() {
-    _traces.forEach((trace) {
-      if (!trace.isEmpty) {
-        add(trace.status, trace.id);
+  void next() {
+    if (_counter < _traces.length) {
+      _trace = _traces[_counter];
+      notifyListeners();
+      if (!_trace.isEmpty) {
+        add(_trace.status, _trace.id);
       }
-    });
+      _counter++;
+    }
   }
 }
