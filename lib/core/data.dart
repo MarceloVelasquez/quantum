@@ -30,15 +30,19 @@ class Data {
 }
 
 class DataBuilder {
-  List<Process> _processes;
+  List<Process> _processes = [];
   InputRules _inputRules;
   BreakRules _breakRules;
+
+  get processes => _processes;
 
   set processes(value) => _processes = value;
   set inputRules(value) => _inputRules = value;
   set breakRules(value) => _breakRules = value;
 
   DataBuilder();
+
+  void addProcess(Process process) => _processes.add(process);
 
   void initialize() {
     _processes.forEach((process) => process.initialize());
@@ -58,5 +62,11 @@ class DataBuilder {
     return _processes != null && _inputRules != null && _breakRules != null
         ? Data(_processes, _breakRules, structures)
         : null;
+  }
+
+  void clear() {
+    _processes.clear();
+    _inputRules = null;
+    _breakRules = null;
   }
 }
