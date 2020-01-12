@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:quantum/core.dart';
 import 'package:quantum/src/models/structure_model.dart';
 import 'package:quantum/src/models/output_model.dart';
-import 'package:quantum/src/widgets/display_panel.dart';
+import 'package:quantum/src/widgets/panels.dart';
 
 class SectionStructure extends StatelessWidget {
   @override
@@ -22,6 +22,10 @@ class SectionStructure extends StatelessWidget {
           padding: EdgeInsets.all(4),
           child: Column(
             children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: DisplayPanel(),
+              ),
               Expanded(
                 flex: 1,
                 child: StructureItem(status: Status.newed),
@@ -52,10 +56,7 @@ class SectionStructure extends StatelessWidget {
               ),
               Expanded(
                 flex: 1,
-                child: Container(
-                  padding: EdgeInsets.all(8),
-                  child: DisplayPanel(),
-                ),
+                child: TapPanel(),
               )
             ],
           ),

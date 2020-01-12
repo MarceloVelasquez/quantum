@@ -6,6 +6,24 @@ import 'package:quantum/src/pages/section_structure.dart';
 
 enum TraceState { created, empty, process, finish }
 
+class TapPanel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Container(
+        margin: EdgeInsets.all(8),
+        padding: EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cursorColor,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        child: Center(child: Text('Presiona para continuar')),
+      ),
+      onTap: () => Provider.of<StructureModel>(context, listen: false).next(),
+    );
+  }
+}
+
 class DisplayPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -34,16 +52,14 @@ class DisplayPanel extends StatelessWidget {
       default:
     }
 
-    return GestureDetector(
-      child: Container(
-        padding: EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: Theme.of(context).cursorColor,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        child: child,
+    return Container(
+      margin: EdgeInsets.all(8),
+      padding: EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cursorColor,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
-      onTap: () => Provider.of<StructureModel>(context, listen: false).next(),
+      child: child,
     );
   }
 }
