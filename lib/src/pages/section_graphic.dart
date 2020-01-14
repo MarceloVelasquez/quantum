@@ -11,7 +11,7 @@ class SectionGraphics extends StatelessWidget {
     Series<DataChart, String> serie = Series(
       id: 'Datos',
       data: dataChart,
-      colorFn: (_, __) => MaterialPalette.red.shadeDefault,
+      colorFn: (_, __) => MaterialPalette.gray.shadeDefault,
       domainFn: (data, _) => data.string,
       measureFn: (data, _) => data.value,
     );

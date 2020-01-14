@@ -22,40 +22,43 @@ class SectionStructure extends StatelessWidget {
           padding: EdgeInsets.all(4),
           child: Column(
             children: <Widget>[
-              Expanded(
-                flex: 1,
+              SizedBox(
+                height: 75,
                 child: DisplayPanel(),
               ),
-              Expanded(
-                flex: 1,
+              SizedBox(
+                height: 75,
                 child: StructureItem(status: Status.newed),
               ),
-              Expanded(
-                flex: 1,
+              SizedBox(
+                height: 75,
                 child: StructureItem(status: Status.ready),
               ),
-              Expanded(
-                flex: 1,
+              SizedBox(
+                height: 75,
                 child: StructureItem(status: Status.inAction),
               ),
-              Expanded(
-                flex: 1,
+              SizedBox(
+                height: 75,
                 child: StructureItem(status: Status.locked),
               ),
-              Expanded(
-                flex: 1,
+              SizedBox(
+                height: 75,
                 child: StructureItem(status: Status.suspended),
               ),
-              Expanded(
-                flex: 1,
+              SizedBox(
+                height: 75,
                 child: StructureItem(status: Status.lost),
               ),
-              Expanded(
-                flex: 1,
+              SizedBox(
+                height: 75,
                 child: StructureItem(status: Status.finished),
               ),
               Expanded(
-                flex: 1,
+                child: Container(),
+              ),
+              SizedBox(
+                height: 75,
                 child: TapPanel(),
               )
             ],

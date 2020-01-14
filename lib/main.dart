@@ -24,10 +24,10 @@ void main() {
       title: 'Quantum',
       theme: ThemeData(
         brightness: Brightness.light,
-        primaryColor: Colors.red,
-        primarySwatch: Colors.red,
+        primaryColor: Colors.grey[900],
+        primarySwatch: Colors.grey,
         cursorColor: Color(0x10000000),
-        accentColor: Colors.redAccent[700],
+        accentColor: Colors.grey[700],
         fontFamily: 'Roboto',
         textTheme: TextTheme(
           title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
@@ -39,7 +39,7 @@ void main() {
           textTheme: TextTheme(
             title: TextStyle(
               fontSize: 18.0,
-              color: Colors.red,
+              color: Colors.grey[900],
               fontWeight: FontWeight.bold,
             ),
           ),

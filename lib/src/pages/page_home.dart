@@ -24,6 +24,7 @@ class ScannerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         TableProcessWidget(),
         InputProcessWidget(),
@@ -48,7 +49,7 @@ class TableProcessWidget extends StatelessWidget {
           child: DataTable(
             columnSpacing: 25,
             columns: [
-              DataColumn(label: Text('P')),
+              DataColumn(label: Text('Proceso')),
               DataColumn(label: Text('Llegada'), numeric: true),
               DataColumn(label: Text('CPU'), numeric: true),
               DataColumn(label: Text('Prioridad'), numeric: true),
@@ -178,12 +179,6 @@ class InputRulesWidget extends StatelessWidget {
           builder: (_, model, child) {
             return Column(
               children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: Text(
-                    'Posibles valores: Cola, Pila, (1 2 3).\nPrioridad va ordenado por el que se ejecuta primero.',
-                  ),
-                ),
                 TextField(
                   controller: model.newController,
                   decoration: InputDecoration(labelText: 'Nuevo'),
