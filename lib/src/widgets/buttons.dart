@@ -15,9 +15,11 @@ class SimulateButton extends StatelessWidget {
           child: RaisedButton(
             onPressed: () {
               Data data = Provider.of<DataModel>(context, listen: false).data();
-              Provider.of<OutputModel>(context, listen: false)
-                  .executeData(data);
-              Navigator.pushNamed(context, '/simulator');
+              if (data != null) {
+                Provider.of<OutputModel>(context, listen: false)
+                    .executeData(data);
+                Navigator.pushNamed(context, '/simulator');
+              }
             },
             color: Theme.of(context).primaryColor,
             textColor: Colors.white,

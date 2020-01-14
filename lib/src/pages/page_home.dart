@@ -158,7 +158,7 @@ class InputBreakWidget extends StatelessWidget {
               controller: model.interruptionsController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: 'Demora de interrupción: MF DAS',
+                labelText: 'Demora de interrupción: B MF DAS',
                 helperText: 'Interrupciones separadas por coma',
               ),
             );

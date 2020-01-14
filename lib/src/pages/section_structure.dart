@@ -20,48 +20,47 @@ class SectionStructure extends StatelessWidget {
         ),
         body: Container(
           padding: EdgeInsets.all(4),
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 75,
-                child: DisplayPanel(),
-              ),
-              SizedBox(
-                height: 75,
-                child: StructureItem(status: Status.newed),
-              ),
-              SizedBox(
-                height: 75,
-                child: StructureItem(status: Status.ready),
-              ),
-              SizedBox(
-                height: 75,
-                child: StructureItem(status: Status.inAction),
-              ),
-              SizedBox(
-                height: 75,
-                child: StructureItem(status: Status.locked),
-              ),
-              SizedBox(
-                height: 75,
-                child: StructureItem(status: Status.suspended),
-              ),
-              SizedBox(
-                height: 75,
-                child: StructureItem(status: Status.lost),
-              ),
-              SizedBox(
-                height: 75,
-                child: StructureItem(status: Status.finished),
-              ),
-              Expanded(
-                child: Container(),
-              ),
-              SizedBox(
-                height: 75,
-                child: TapPanel(),
-              )
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 75,
+                  child: DisplayPanel(),
+                ),
+                SizedBox(
+                  height: 75,
+                  child: StructureItem(status: Status.newed),
+                ),
+                SizedBox(
+                  height: 75,
+                  child: StructureItem(status: Status.ready),
+                ),
+                SizedBox(
+                  height: 75,
+                  child: StructureItem(status: Status.inAction),
+                ),
+                SizedBox(
+                  height: 75,
+                  child: StructureItem(status: Status.locked),
+                ),
+                SizedBox(
+                  height: 75,
+                  child: StructureItem(status: Status.suspended),
+                ),
+                SizedBox(
+                  height: 75,
+                  child: StructureItem(status: Status.lost),
+                ),
+                SizedBox(
+                  height: 75,
+                  child: StructureItem(status: Status.finished),
+                ),
+                SizedBox(
+                  height: 75,
+                  child: TapPanel(),
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -26,7 +26,7 @@ class DataModel with ChangeNotifier {
   }
 
   bool validate() {
-    if (processes.length < 2) return false;
+    if (processes.length < 3) return false;
 
     var rules = Util.getBreakRules(interruptionsController.text);
     if (rules == null) return false;
@@ -34,18 +34,22 @@ class DataModel with ChangeNotifier {
 
     List<Structure> inputStructures = [];
     Structure aux;
+    if (newController.text.trim() == '') return false;
     aux = Util.getInputStructure(Status.newed, newController.text);
-    if (aux == null) return false;
     inputStructures.add(aux);
+
+    if (readyController.text.trim() == '') return false;
     aux = Util.getInputStructure(Status.ready, readyController.text);
-    if (aux == null) return false;
     inputStructures.add(aux);
+
+    if (lockedController.text.trim() == '' && rules.breaks.length != 0)
+      return false;
     aux = Util.getInputStructure(Status.locked, lockedController.text);
-    if (aux == null) return false;
     inputStructures.add(aux);
+
     aux = Util.getInputStructure(Status.suspended, suspendedController.text);
-    if (aux == null) return false;
     inputStructures.add(aux);
+
     _builder.inputRules = InputRules(inputStructures);
 
     return true;
@@ -53,6 +57,11 @@ class DataModel with ChangeNotifier {
 
   void clear() {
     _builder.clear();
+    interruptionsController.text = '';
+    newController.text = '';
+    readyController.text = '';
+    lockedController.text = '';
+    suspendedController.text = '';
     notifyListeners();
   }
 

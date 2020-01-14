@@ -2,6 +2,7 @@ import 'package:quantum/core.dart';
 
 class Util {
   static List<int> getNumbersFromField(String text) {
+    if (text.trim() == '') return null;
     bool clean = true;
     var ints = text.trim().split(' ').map((number) {
       if (int.tryParse(number.trim()) == null) clean = false;
@@ -15,7 +16,7 @@ class Util {
 
     var aux = text.trim().split(',');
 
-    if (aux == null || aux.length == 0) return null;
+    if (aux == [] || text.trim() == '') return BreakRules([]);
 
     for (var i = 0; i < aux.length; i++) {
       var rules = Util.getNumbersFromField(aux[i].trim());
@@ -46,7 +47,9 @@ class Util {
         break;
       default:
         var ints = getNumbersFromField(cleanText);
-        structure = ints == null ? null : StructurePriority(status, ints);
+        structure = ints == null
+            ? StructureQueue(status)
+            : StructurePriority(status, ints);
         break;
     }
 
