@@ -5,13 +5,12 @@ class Break {
   int get id => _id;
   int get value => _value;
 
-  Break(int id, this._value) {
-    _id = id == 0 ? null : id;
-  }
+  Break(this._id, this._value);
 }
 
 class Breaks {
   List<Break> _breaks;
+  List<Break> get breaks => _breaks;
 
   Breaks(this._breaks);
 

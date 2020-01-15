@@ -14,6 +14,13 @@ class Process {
   int get cpu => _cpu;
   int get priority => _priority;
   int get arrivalTime => _arrivalTime;
+  int get length => _breaks.breaks.length;
+  String get breaks {
+    var values = _breaks.breaks.map((b) => b.value);
+    String string = '';
+    values.forEach((value) => string += '$value ');
+    return string.trim();
+  }
 
   bool get isLocked => blocker != null;
   bool get isFinished => _cpu == stage;
