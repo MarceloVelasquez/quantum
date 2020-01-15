@@ -14,6 +14,9 @@ class PageHome extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Quantum'),
+        actions: <Widget>[
+          ResetButton(),
+        ],
       ),
       body: SingleChildScrollView(child: ScannerPage()),
     );
@@ -101,11 +104,6 @@ class InputProcessWidget extends StatelessWidget {
             ),
             ButtonBar(
               children: <Widget>[
-                FlatButton(
-                  onPressed: () =>
-                      Provider.of<DataModel>(context, listen: false).clear(),
-                  child: Text('BORRAR DATOS'),
-                ),
                 Consumer<DataModel>(
                   builder: (_, model, child) {
                     return RaisedButton(

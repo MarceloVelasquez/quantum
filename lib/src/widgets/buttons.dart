@@ -30,3 +30,14 @@ class SimulateButton extends StatelessWidget {
     );
   }
 }
+
+class ResetButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      color: Theme.of(context).primaryColor,
+      icon: Icon(Icons.refresh),
+      onPressed: () => Provider.of<DataModel>(context, listen: false).clear(),
+    );
+  }
+}
