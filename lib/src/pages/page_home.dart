@@ -46,15 +46,14 @@ class TableProcessWidget extends StatelessWidget {
 
     return Card(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: DataTable(
-            columnSpacing: 25,
             columns: [
               DataColumn(label: Text('Proceso')),
               DataColumn(label: Text('Llegada'), numeric: true),
               DataColumn(label: Text('CPU'), numeric: true),
+              DataColumn(label: Text('Interrupciones'), numeric: true),
               DataColumn(label: Text('Prioridad'), numeric: true),
             ],
             rows: processes
@@ -62,6 +61,7 @@ class TableProcessWidget extends StatelessWidget {
                       DataCell(Text(item.id.toString())),
                       DataCell(Text(item.arrivalTime.toString())),
                       DataCell(Text(item.cpu.toString())),
+                      DataCell(Text(item.breaks.toString())),
                       DataCell(Text(item.priority.toString())),
                     ]))
                 .toList(),
@@ -75,67 +75,46 @@ class TableProcessWidget extends StatelessWidget {
 class InputProcessWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var processController = TextEditingController();
-    var breakController = TextEditingController();
+    var controller = TextEditingController();
     return Card(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12),
-        child: Column(
+        padding: EdgeInsets.fromLTRB(12, 0, 12, 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Container(
-              child: TextField(
-                controller: processController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Llegada CPU Prioridad',
-                  helperText: 'Valores en orden y separados por espacio',
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: TextField(
+                  controller: controller,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Llegada CPU Interrupciones Prioridad',
+                    helperText: 'Valores en orden y separados por espacio',
+                  ),
                 ),
               ),
             ),
-            Container(
-              child: TextField(
-                controller: breakController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Bloqueos',
-                  helperText: 'Valores en orden y separados por espacio',
-                ),
+            SizedBox(
+              child: Consumer<DataModel>(
+                builder: (_, model, child) {
+                  return IconButton(
+                    onPressed: () {
+                      var process = Util.getProcessFromInput(
+                        model.processes.length + 1,
+                        Util.getNumbersFromField(controller.text),
+                      );
+                      if (process == null) return;
+                      if (model.breaks == null) model.breaks = process.length;
+                      if (model.breaks != process.length) return;
+                      model.addProcess(process);
+                      controller.text = '';
+                    },
+                    icon: Icon(Icons.add),
+                    color: Theme.of(context).primaryColor,
+                  );
+                },
               ),
-            ),
-            ButtonBar(
-              children: <Widget>[
-                Consumer<DataModel>(
-                  builder: (_, model, child) {
-                    return RaisedButton(
-                      child: Text('AGREGAR'),
-                      color: Theme.of(context).primaryColor,
-                      onPressed: () {
-                        List<int> process =
-                            Util.getNumbersFromField(processController.text);
-                        List<int> breaks =
-                            Util.getNumbersFromField(breakController.text);
-                        if (process == null || process.length != 3) return;
-
-                        model.addProcess(Process(
-                          model.processes.length + 1,
-                          process[0],
-                          process[1],
-                          breaks == null
-                              ? Breaks([])
-                              : Breaks(Util.indexed(
-                                  breaks,
-                                  (index, item) => Break(index + 1, item),
-                                ).toList()),
-                          process[2],
-                        ));
-
-                        processController.text = '';
-                        breakController.text = '';
-                      },
-                    );
-                  },
-                )
-              ],
             )
           ],
         ),
@@ -156,7 +135,7 @@ class InputBreakWidget extends StatelessWidget {
               controller: model.interruptionsController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: 'Demora de interrupción: B MF DAS',
+                labelText: 'Interrupción: MF DAS',
                 helperText: 'Interrupciones separadas por coma',
               ),
             );
