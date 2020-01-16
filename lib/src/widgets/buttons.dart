@@ -14,7 +14,8 @@ class SimulateButton extends StatelessWidget {
           margin: EdgeInsets.all(4),
           child: RaisedButton(
             onPressed: () {
-              Data data = Provider.of<DataModel>(context, listen: false).data();
+              Data data =
+                  Provider.of<DataModel>(context, listen: false).data(context);
               if (data != null) {
                 Provider.of<OutputModel>(context, listen: false)
                     .executeData(data);

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:quantum/core.dart';
+import 'package:quantum/src/widgets/snackbar.dart';
 import 'package:quantum/src/widgets/util.dart';
 
 class DataModel with ChangeNotifier {
@@ -10,6 +11,8 @@ class DataModel with ChangeNotifier {
   TextEditingController readyController = TextEditingController();
   TextEditingController lockedController = TextEditingController();
   TextEditingController suspendedController = TextEditingController();
+
+  int breaks;
 
   DataModel() {
     _builder = DataBuilder();
@@ -25,25 +28,43 @@ class DataModel with ChangeNotifier {
     notifyListeners();
   }
 
-  bool validate() {
-    if (processes.length < 3) return false;
+  bool validate(BuildContext context) {
+    if (processes.length < 3) {
+      showSnack(context, 'Debe haber como mínimo tres procesos');
+      return false;
+    }
 
     var rules = Util.getBreakRules(interruptionsController.text);
-    if (rules == null) return false;
+    if (rules == null) {
+      showSnack(context, 'Formato de interrupciones no válido');
+      return false;
+    }
+    if (rules.breaks.length < breaks) {
+      showSnack(context, 'Faltan interrupciones');
+      return false;
+    }
     _builder.breakRules = rules;
 
     List<Structure> inputStructures = [];
     Structure aux;
-    if (newController.text.trim() == '') return false;
+    if (newController.text.trim().isEmpty) {
+      showSnack(context, 'Nuevo no puede esta vacío');
+      return false;
+    }
     aux = Util.getInputStructure(Status.newed, newController.text);
     inputStructures.add(aux);
 
-    if (readyController.text.trim() == '') return false;
+    if (readyController.text.trim().isEmpty) {
+      showSnack(context, 'Listo no puede esta vacío');
+      return false;
+    }
     aux = Util.getInputStructure(Status.ready, readyController.text);
     inputStructures.add(aux);
 
-    if (lockedController.text.trim() == '' && rules.breaks.length != 0)
+    if (lockedController.text.trim().isEmpty && rules.breaks.length != 0) {
+      showSnack(context, 'Listo no puede esta vacío');
       return false;
+    }
     aux = Util.getInputStructure(Status.locked, lockedController.text);
     inputStructures.add(aux);
 
@@ -62,8 +83,10 @@ class DataModel with ChangeNotifier {
     readyController.text = '';
     lockedController.text = '';
     suspendedController.text = '';
+    breaks = null;
     notifyListeners();
   }
 
-  Data data() => validate() ? _builder.build() : null;
+  Data data(BuildContext context) =>
+      validate(context) ? _builder.build() : null;
 }

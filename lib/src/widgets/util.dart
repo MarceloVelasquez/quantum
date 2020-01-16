@@ -14,7 +14,7 @@ class Util {
 
   static Process getProcessFromInput(int id, List<int> ints) {
     Breaks breaks = Breaks([]);
-    if (ints == null || ints.length < 3) return null;
+    if (ints.length < 3) return null;
     if (ints.length > 3) {
       List<Break> list = [];
       for (var i = 2; i < ints.length - 1; i++) {

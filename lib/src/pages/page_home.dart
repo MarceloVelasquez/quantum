@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:quantum/core.dart';
 import 'package:quantum/src/models/data_model.dart';
 import 'package:quantum/src/widgets/buttons.dart';
+import 'package:quantum/src/widgets/snackbar.dart';
 import 'package:quantum/src/widgets/util.dart';
 
 class PageHome extends StatelessWidget {
@@ -100,13 +100,33 @@ class InputProcessWidget extends StatelessWidget {
                 builder: (_, model, child) {
                   return IconButton(
                     onPressed: () {
+                      var ints = Util.getNumbersFromField(controller.text);
+                      if (ints == null) {
+                        showSnack(
+                          context,
+                          'El formato ingresado no es correcto',
+                        );
+                        return;
+                      }
                       var process = Util.getProcessFromInput(
                         model.processes.length + 1,
-                        Util.getNumbersFromField(controller.text),
+                        ints,
                       );
-                      if (process == null) return;
+                      if (process == null) {
+                        showSnack(
+                          context,
+                          'Mínimo tres valores para un proceso',
+                        );
+                        return;
+                      }
                       if (model.breaks == null) model.breaks = process.length;
-                      if (model.breaks != process.length) return;
+                      if (model.breaks != process.length) {
+                        showSnack(
+                          context,
+                          'Número de interrupciones requeridas: ${model.breaks}',
+                        );
+                        return;
+                      }
                       model.addProcess(process);
                       controller.text = '';
                     },
@@ -158,19 +178,31 @@ class InputRulesWidget extends StatelessWidget {
               children: <Widget>[
                 TextField(
                   controller: model.newController,
-                  decoration: InputDecoration(labelText: 'Nuevo'),
+                  decoration: InputDecoration(
+                    labelText: 'Nuevo',
+                    hintText: 'Pila | Cola | 1 2 3',
+                  ),
                 ),
                 TextField(
                   controller: model.readyController,
-                  decoration: InputDecoration(labelText: 'Listo'),
+                  decoration: InputDecoration(
+                    labelText: 'Listo',
+                    hintText: 'Pila | Cola | 1 2 3',
+                  ),
                 ),
                 TextField(
                   controller: model.lockedController,
-                  decoration: InputDecoration(labelText: 'Bloqueado'),
+                  decoration: InputDecoration(
+                    labelText: 'Bloqueado',
+                    hintText: 'Pila | Cola | 1 2 3',
+                  ),
                 ),
                 TextField(
                   controller: model.suspendedController,
-                  decoration: InputDecoration(labelText: 'Suspendido'),
+                  decoration: InputDecoration(
+                    labelText: 'Suspendido',
+                    hintText: 'Pila | Cola | 1 2 3',
+                  ),
                 ),
               ],
             );
