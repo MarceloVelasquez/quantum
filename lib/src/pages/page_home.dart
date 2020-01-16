@@ -89,51 +89,15 @@ class InputProcessWidget extends StatelessWidget {
                   controller: controller,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    labelText: 'Llegada CPU Interrupciones Prioridad',
-                    helperText: 'Valores en orden y separados por espacio',
+                    labelText: 'Nuevo proceso',
+                    helperText: 'Llegada CPU Bloqueos Prioridad',
                   ),
                 ),
               ),
             ),
             SizedBox(
               child: Consumer<DataModel>(
-                builder: (_, model, child) {
-                  return IconButton(
-                    onPressed: () {
-                      var ints = Util.getNumbersFromField(controller.text);
-                      if (ints == null) {
-                        showSnack(
-                          context,
-                          'El formato ingresado no es correcto',
-                        );
-                        return;
-                      }
-                      var process = Util.getProcessFromInput(
-                        model.processes.length + 1,
-                        ints,
-                      );
-                      if (process == null) {
-                        showSnack(
-                          context,
-                          'Mínimo tres valores para un proceso',
-                        );
-                        return;
-                      }
-                      if (model.breaks == null) model.breaks = process.length;
-                      if (model.breaks != process.length) {
-                        showSnack(
-                          context,
-                          'Número de interrupciones requeridas: ${model.breaks}',
-                        );
-                        return;
-                      }
-                      model.addProcess(process);
-                      controller.text = '';
-                    },
-                    icon: Icon(Icons.add),
-                    color: Theme.of(context).primaryColor,
-                  );
-                },
+                builder: (_, model, child) => AddButton(model, controller),
               ),
             )
           ],
@@ -155,8 +119,8 @@ class InputBreakWidget extends StatelessWidget {
               controller: model.interruptionsController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: 'Interrupción: MF DAS',
-                helperText: 'Interrupciones separadas por coma',
+                labelText: 'Reglas de interrupción',
+                helperText: '[MF DAS] Interrupciones separadas por coma',
               ),
             );
           },
@@ -180,28 +144,32 @@ class InputRulesWidget extends StatelessWidget {
                   controller: model.newController,
                   decoration: InputDecoration(
                     labelText: 'Nuevo',
-                    hintText: 'Pila | Cola | 1 2 3',
+                    hintText: 'Cola | Pila | 1 2 3',
+                    icon: Icon(Icons.assignment),
                   ),
                 ),
                 TextField(
                   controller: model.readyController,
                   decoration: InputDecoration(
                     labelText: 'Listo',
-                    hintText: 'Pila | Cola | 1 2 3',
+                    hintText: 'Cola | Pila | 1 2 3',
+                    icon: Icon(Icons.assignment_turned_in),
                   ),
                 ),
                 TextField(
                   controller: model.lockedController,
                   decoration: InputDecoration(
                     labelText: 'Bloqueado',
-                    hintText: 'Pila | Cola | 1 2 3',
+                    hintText: 'Cola | Pila | 1 2 3',
+                    icon: Icon(Icons.assignment_late),
                   ),
                 ),
                 TextField(
                   controller: model.suspendedController,
                   decoration: InputDecoration(
                     labelText: 'Suspendido',
-                    hintText: 'Pila | Cola | 1 2 3',
+                    hintText: 'Cola | Pila | 1 2 3',
+                    icon: Icon(Icons.assignment_returned),
                   ),
                 ),
               ],

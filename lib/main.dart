@@ -7,17 +7,12 @@ import 'package:quantum/src/pages/page_simulator.dart';
 import 'package:quantum/src/models/data_model.dart';
 import 'package:quantum/src/models/output_model.dart';
 
-void main() {
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(
-        create: (context) => DataModel(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => OutputModel(),
-      ),
-    ],
-    child: MaterialApp(
+void main() => runApp(Quantum());
+
+class Quantum extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       routes: {
         '/home': (context) => PageHome(),
         '/simulator': (context) => PageSimulator(),
@@ -48,12 +43,25 @@ void main() {
       ),
       home: SplashScreen.navigate(
         name: 'assets/quantum.flr',
-        until: () => Future.delayed(Duration(seconds: 2)),
-        next: (context) => PageHome(),
+        next: (context) => ProviderWidget(),
+        until: () => Future.delayed(Duration()),
+        fit: BoxFit.cover,
         startAnimation: 'splash',
         backgroundColor: Colors.black,
-        fit: BoxFit.cover,
       ),
-    ),
-  ));
+    );
+  }
+}
+
+class ProviderWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => DataModel()),
+        ChangeNotifierProvider(create: (_) => OutputModel()),
+      ],
+      child: PageHome(),
+    );
+  }
 }
