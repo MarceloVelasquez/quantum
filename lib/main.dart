@@ -1,3 +1,4 @@
+import 'package:flare_splash_screen/flare_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +46,14 @@ void main() {
           ),
         ),
       ),
-      home: PageHome(),
+      home: SplashScreen.navigate(
+        name: 'assets/quantum.flr',
+        until: () => Future.delayed(Duration(seconds: 2)),
+        next: (context) => PageHome(),
+        startAnimation: 'splash',
+        backgroundColor: Colors.black,
+        fit: BoxFit.cover,
+      ),
     ),
   ));
 }
