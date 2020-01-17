@@ -1,5 +1,5 @@
-name: quantum
-description: A new Flutter project.
+name: Quantum
+description: Simulador simple de control de tráfico por procesos que realiza el SO.
 
 version: 1.0.0+1
 
