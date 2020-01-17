@@ -1,4 +1,4 @@
-name: Quantum
+name: quantum
 description: Simulador simple de control de tráfico por procesos que realiza el SO.
 
 version: 1.0.0+1
@@ -10,7 +10,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^0.1.2
   provider: ^4.0.1
   charts_flutter: ^0.8.1
   flare_splash_screen: ^3.0.0

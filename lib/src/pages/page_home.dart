@@ -4,8 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:quantum/src/models/data_model.dart';
 import 'package:quantum/src/widgets/buttons.dart';
-import 'package:quantum/src/widgets/snackbar.dart';
-import 'package:quantum/src/widgets/util.dart';
 
 class PageHome extends StatelessWidget {
   @override

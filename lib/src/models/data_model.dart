@@ -62,7 +62,7 @@ class DataModel with ChangeNotifier {
     inputStructures.add(aux);
 
     if (lockedController.text.trim().isEmpty && rules.breaks.length != 0) {
-      showSnack(context, 'Listo no puede esta vacío');
+      showSnack(context, 'Bloqueado no puede esta vacío');
       return false;
     }
     aux = Util.getInputStructure(Status.locked, lockedController.text);
