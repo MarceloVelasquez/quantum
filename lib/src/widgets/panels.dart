@@ -6,24 +6,6 @@ import 'package:quantum/src/pages/section_structure.dart';
 
 enum TraceState { created, empty, process, finish }
 
-class TapPanel extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        margin: EdgeInsets.all(8),
-        padding: EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: Theme.of(context).cursorColor,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        child: Center(child: Text('Presiona para continuar')),
-      ),
-      onTap: () => Provider.of<StructureModel>(context, listen: false).next(),
-    );
-  }
-}
-
 class DisplayPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -38,7 +20,7 @@ class DisplayPanel extends StatelessWidget {
 
     switch (state) {
       case TraceState.created:
-        child = Center(child: Text('Presiona para continuar'));
+        child = Center(child: Text('Presiona el botón para continuar'));
         break;
       case TraceState.empty:
         child = Center(child: Text('Tiempo muerto'));

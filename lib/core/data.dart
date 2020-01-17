@@ -2,7 +2,7 @@ import 'package:quantum/core/process.dart';
 import 'package:quantum/core/rules.dart';
 import 'package:quantum/core/structure.dart';
 
-enum Status { newed, ready, inAction, locked, suspended, finished, lost }
+enum Status { newed, ready, inAction, locked, suspended, lost, finished }
 enum Type { initial, blocked, empty, generic }
 
 const Map<Status, String> StatusName = {
@@ -11,8 +11,8 @@ const Map<Status, String> StatusName = {
   Status.inAction: "En ejecución",
   Status.locked: "Bloqueado",
   Status.suspended: "Suspendido",
+  Status.lost: "Perdido",
   Status.finished: "Terminado",
-  Status.lost: "Perdido"
 };
 
 class Data {

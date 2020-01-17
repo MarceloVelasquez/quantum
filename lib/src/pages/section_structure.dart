@@ -12,57 +12,36 @@ class SectionStructure extends StatelessWidget {
 
     return ChangeNotifierProvider(
       create: (context) => StructureModel(traces),
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-          title: Text('Estructura de datos'),
-        ),
-        body: Container(
-          padding: EdgeInsets.all(4),
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 75,
-                  child: DisplayPanel(),
-                ),
-                SizedBox(
-                  height: 75,
-                  child: StructureItem(status: Status.newed),
-                ),
-                SizedBox(
-                  height: 75,
-                  child: StructureItem(status: Status.ready),
-                ),
-                SizedBox(
-                  height: 75,
-                  child: StructureItem(status: Status.inAction),
-                ),
-                SizedBox(
-                  height: 75,
-                  child: StructureItem(status: Status.locked),
-                ),
-                SizedBox(
-                  height: 75,
-                  child: StructureItem(status: Status.suspended),
-                ),
-                SizedBox(
-                  height: 75,
-                  child: StructureItem(status: Status.lost),
-                ),
-                SizedBox(
-                  height: 75,
-                  child: StructureItem(status: Status.finished),
-                ),
-                SizedBox(
-                  height: 75,
-                  child: TapPanel(),
-                )
-              ],
-            ),
+      child: ScaffoldStructure(),
+    );
+  }
+}
+
+class ScaffoldStructure extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        title: Text('Estructura de datos'),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(4),
+        child: SingleChildScrollView(
+          child: Column(
+            children: Status.values
+                .map((status) =>
+                    SizedBox(height: 75, child: StructureItem(status: status)))
+                .toList()
+                  ..insert(0, SizedBox(height: 75, child: DisplayPanel())),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () =>
+            Provider.of<StructureModel>(context, listen: false).next(),
+        child: Icon(Icons.play_arrow),
       ),
     );
   }
@@ -85,16 +64,23 @@ class StructureItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Text(StatusName[status]),
-          Consumer<StructureModel>(
-            builder: (_, model, child) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: model.structures[status]
-                    .map((id) => ProcessItem(id: id))
-                    .toList(),
-              );
-            },
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: Text(StatusName[status]),
+          ),
+          Expanded(
+            child: Consumer<StructureModel>(
+              builder: (_, model, child) {
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  reverse: true,
+                  itemCount: model.structures[status].length,
+                  itemBuilder: (context, index) {
+                    return ProcessItem(id: model.structures[status][index]);
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),
