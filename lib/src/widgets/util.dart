@@ -6,8 +6,9 @@ class Util {
     bool clean = true;
     text = text.replaceAll(RegExp('[ ]+'), ' ');
     var ints = text.trim().split(' ').map((number) {
-      if (int.tryParse(number) == null) clean = false;
-      return int.tryParse(number);
+      int parsed = int.tryParse(number);
+      if (parsed == null || parsed < 0) clean = false;
+      return parsed;
     }).toList();
     return clean ? ints : null;
   }
@@ -50,9 +51,15 @@ class Util {
     return BreakRules(list);
   }
 
-  static Structure getInputStructure(Status status, String text) {
+  static Structure getInputStructure(
+    Status status,
+    String text,
+    List<Process> processes,
+  ) {
     Structure structure;
     String cleanText = text.trim().toLowerCase();
+
+    if (cleanText.isEmpty) return StructureQueue(status);
 
     switch (cleanText) {
       case 'cola':
@@ -63,22 +70,22 @@ class Util {
         break;
       default:
         var ints = getNumbersFromField(cleanText);
+        var priorities = processes.map((p) => p.priority).toList();
+
         structure = ints == null
-            ? StructureQueue(status)
-            : StructurePriority(status, ints);
+            ? StructureQueue(Status.finished)
+            : !_includeIn(priorities, ints)
+                ? null
+                : StructurePriority(status, ints);
         break;
     }
 
     return structure;
   }
 
-  static Iterable<E> indexed<E, T>(
-      Iterable<T> items, E Function(int index, T item) f) sync* {
-    var index = 0;
-
-    for (final item in items) {
-      yield f(index, item);
-      index = index + 1;
-    }
+  static bool _includeIn(List a, List b) {
+    bool contains = true;
+    a.forEach((e) => !b.contains(e) ? contains = false : null);
+    return contains;
   }
 }

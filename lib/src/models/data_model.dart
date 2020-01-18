@@ -45,31 +45,30 @@ class DataModel with ChangeNotifier {
     }
     _builder.breakRules = rules;
 
+    Map<Status, String> inputs = {
+      Status.newed: newController.text,
+      Status.ready: readyController.text,
+      Status.locked: lockedController.text,
+      Status.suspended: suspendedController.text,
+    };
+
     List<Structure> inputStructures = [];
-    Structure aux;
-    if (newController.text.trim().isEmpty) {
-      showSnack(context, 'Nuevo no puede esta vacío');
-      return false;
-    }
-    aux = Util.getInputStructure(Status.newed, newController.text);
-    inputStructures.add(aux);
 
-    if (readyController.text.trim().isEmpty) {
-      showSnack(context, 'Listo no puede esta vacío');
-      return false;
+    for (var i = 0; i < inputs.length; i++) {
+      Status status = inputs.keys.toList()[i];
+      String text = inputs.values.toList()[i];
+      Structure aux = Util.getInputStructure(status, text, processes);
+      if (aux == null) {
+        showSnack(
+            context, 'Las prioridades en ${StatusName[status]} no coinciden');
+        return false;
+      } else if (aux.name == Status.finished) {
+        showSnack(
+            context, 'El formato en ${StatusName[status]} no es correcto');
+        return false;
+      }
+      inputStructures.add(aux);
     }
-    aux = Util.getInputStructure(Status.ready, readyController.text);
-    inputStructures.add(aux);
-
-    if (lockedController.text.trim().isEmpty && rules.breaks.length != 0) {
-      showSnack(context, 'Bloqueado no puede esta vacío');
-      return false;
-    }
-    aux = Util.getInputStructure(Status.locked, lockedController.text);
-    inputStructures.add(aux);
-
-    aux = Util.getInputStructure(Status.suspended, suspendedController.text);
-    inputStructures.add(aux);
 
     _builder.inputRules = InputRules(inputStructures);
 

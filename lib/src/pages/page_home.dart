@@ -27,8 +27,8 @@ class ScannerPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        TableProcessWidget(),
         InputProcessWidget(),
+        TableProcessWidget(),
         InputBreakWidget(),
         InputRulesWidget(),
         SimulateButton(),
@@ -87,7 +87,7 @@ class InputProcessWidget extends StatelessWidget {
                   controller: controller,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    labelText: 'Nuevo proceso',
+                    labelText: 'Agregar proceso',
                     helperText: 'Llegada CPU Bloqueos Prioridad',
                   ),
                 ),
