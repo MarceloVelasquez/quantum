@@ -59,7 +59,7 @@ class _PanelTrace extends StatelessWidget {
           ProcessItem(id: trace.id),
           Container(
             margin: EdgeInsets.all(2),
-            child: Text(trace.statusName),
+            child: Text('${trace.statusName}${trace.idBreak}'),
           ),
           Container(
             margin: EdgeInsets.all(2),

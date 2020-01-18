@@ -13,7 +13,7 @@ class Trace {
   String get process => _process.id.toString();
   String get advance => '${_instructions.first}-${_instructions.last}';
   String get statusName => StatusName[_status];
-  String get idBreak => _break != null ? '($_break)' : '';
+  String get idBreak => _break != null ? ' ($_break)' : '';
   Status get status => _status;
   bool get isEmpty => _instructions == null;
 
