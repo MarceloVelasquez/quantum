@@ -54,35 +54,21 @@ class AddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        var ints = Util.getNumbersFromField(_controller.text);
-        if (ints == null) {
-          showSnack(
-            context,
-            'El formato ingresado no es correcto',
+        try {
+          Process process = Util.getProcessFromInput(
+            _model.processes.length + 1,
+            Util.getNumbersFromField(_controller.text),
           );
+          if (_model.breaks == null) _model.breaks = process.length;
+          if (_model.breaks != process.length) {
+            throw RequiredBreaksException(_model.breaks);
+          }
+          _model.addProcess(process);
+          _controller.text = '';
+        } catch (e) {
+          showSnack(context, e.message);
           return;
         }
-        var process = Util.getProcessFromInput(
-          _model.processes.length + 1,
-          ints,
-        );
-        if (process == null) {
-          showSnack(
-            context,
-            'Mínimo tres valores para un proceso',
-          );
-          return;
-        }
-        if (_model.breaks == null) _model.breaks = process.length;
-        if (_model.breaks != process.length) {
-          showSnack(
-            context,
-            'Número de interrupciones requeridas: ${_model.breaks}',
-          );
-          return;
-        }
-        _model.addProcess(process);
-        _controller.text = '';
       },
       icon: Icon(Icons.add),
     );

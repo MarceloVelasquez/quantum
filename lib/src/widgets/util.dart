@@ -2,20 +2,19 @@ import 'package:quantum/core.dart';
 
 class Util {
   static List<int> getNumbersFromField(String text) {
-    if (text.trim().isEmpty) return null;
-    bool clean = true;
+    if (text.trim().isEmpty) throw EmptyInputException();
     text = text.replaceAll(RegExp('[ ]+'), ' ');
-    var ints = text.trim().split(' ').map((number) {
+    return text.trim().split(' ').map((number) {
       int parsed = int.tryParse(number);
-      if (parsed == null || parsed < 0) clean = false;
+      if (parsed == null) throw NotNumberException(number);
+      if (parsed < 0) throw NegativeNumberException();
       return parsed;
     }).toList();
-    return clean ? ints : null;
   }
 
   static Process getProcessFromInput(int id, List<int> ints) {
     Breaks breaks = Breaks([]);
-    if (ints.length < 3) return null;
+    if (ints.length < 3) throw MissingNumbersException();
     if (ints.length > 3) {
       List<Break> list = [];
       for (var i = 2; i < ints.length - 1; i++) {
@@ -32,18 +31,18 @@ class Util {
 
     List<BreakRule> list = [];
     text = text.replaceAll(RegExp('[ ]+'), ' ');
-    var aux = text.trim().split(',');
+    List<String> aux = text.trim().split(',');
 
     for (var i = 0; i < aux.length; i++) {
-      var rules = Util.getNumbersFromField(aux[i].trim());
-      if (rules == null) return null;
+      List<int> rules = Util.getNumbersFromField(aux[i].trim());
       BreakRule breakRule = BreakRule.empty();
+      if (rules.contains(0)) throw ZeroBreakException();
       if (rules.length == 1) {
         breakRule = BreakRule.locked(i + 1, rules[0]);
       } else if (rules.length == 2) {
         breakRule = BreakRule.discontinued(i + 1, rules[0], rules[1]);
       } else {
-        return null;
+        throw FormatBreakException();
       }
       list.add(breakRule);
     }
@@ -58,7 +57,6 @@ class Util {
   ) {
     Structure structure;
     String cleanText = text.trim().toLowerCase();
-
     if (cleanText.isEmpty) return StructureQueue(status);
 
     switch (cleanText) {
@@ -69,23 +67,17 @@ class Util {
         structure = StructureHeap(status);
         break;
       default:
-        var ints = getNumbersFromField(cleanText);
-        var priorities = processes.map((p) => p.priority).toList();
+        List<int> ints = getNumbersFromField(cleanText);
+        List<int> priorities = processes.map((p) => p.priority).toList();
 
-        structure = ints == null
-            ? StructureQueue(Status.finished)
-            : !_includeIn(priorities, ints)
-                ? null
-                : StructurePriority(status, ints);
+        priorities.forEach((e) => !ints.contains(e)
+            ? throw MissingPrioritiesException(StatusName[status])
+            : null);
+
+        structure = StructurePriority(status, ints);
         break;
     }
 
     return structure;
-  }
-
-  static bool _includeIn(List a, List b) {
-    bool contains = true;
-    a.forEach((e) => !b.contains(e) ? contains = false : null);
-    return contains;
   }
 }

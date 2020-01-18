@@ -28,51 +28,36 @@ class DataModel with ChangeNotifier {
     notifyListeners();
   }
 
-  bool validate(BuildContext context) {
-    if (processes.length < 3) {
-      showSnack(context, 'Debe haber como mínimo tres procesos');
-      return false;
-    }
+  Data build(BuildContext context) {
+    try {
+      if (processes.length < 2) throw MissingProcessException(2);
 
-    var rules = Util.getBreakRules(interruptionsController.text);
-    if (rules == null) {
-      showSnack(context, 'Formato de interrupciones no válido');
-      return false;
-    }
-    if (rules.breaks.length < breaks) {
-      showSnack(context, 'Faltan interrupciones');
-      return false;
-    }
-    _builder.breakRules = rules;
+      var rules = Util.getBreakRules(interruptionsController.text);
+      if (rules.breaks.length < breaks) throw MissingBreakException();
+      _builder.breakRules = rules;
 
-    Map<Status, String> inputs = {
-      Status.newed: newController.text,
-      Status.ready: readyController.text,
-      Status.locked: lockedController.text,
-      Status.suspended: suspendedController.text,
-    };
+      Map<Status, String> _inputs = {
+        Status.newed: newController.text,
+        Status.ready: readyController.text,
+        Status.locked: lockedController.text,
+        Status.suspended: suspendedController.text,
+      };
 
-    List<Structure> inputStructures = [];
+      List<Structure> inputStructures = [];
 
-    for (var i = 0; i < inputs.length; i++) {
-      Status status = inputs.keys.toList()[i];
-      String text = inputs.values.toList()[i];
-      Structure aux = Util.getInputStructure(status, text, processes);
-      if (aux == null) {
-        showSnack(
-            context, 'Las prioridades en ${StatusName[status]} no coinciden');
-        return false;
-      } else if (aux.name == Status.finished) {
-        showSnack(
-            context, 'El formato en ${StatusName[status]} no es correcto');
-        return false;
+      for (var i = 0; i < _inputs.length; i++) {
+        Status status = _inputs.keys.toList()[i];
+        String text = _inputs.values.toList()[i];
+        inputStructures.add(Util.getInputStructure(status, text, processes));
       }
-      inputStructures.add(aux);
+
+      _builder.inputRules = InputRules(inputStructures);
+    } catch (e) {
+      showSnack(context, e.message);
+      return null;
     }
 
-    _builder.inputRules = InputRules(inputStructures);
-
-    return true;
+    return _builder.build();
   }
 
   void clear() {
@@ -86,6 +71,5 @@ class DataModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Data data(BuildContext context) =>
-      validate(context) ? _builder.build() : null;
+  Data data(BuildContext context) => build(context);
 }
