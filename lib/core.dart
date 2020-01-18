@@ -1,8 +1,9 @@
 library quantum_core;
 
-export 'core/data.dart';
 export 'core/break.dart';
+export 'core/data.dart';
 export 'core/engine.dart';
+export 'core/exceptions.dart';
 export 'core/output.dart';
 export 'core/process.dart';
 export 'core/processor.dart';
