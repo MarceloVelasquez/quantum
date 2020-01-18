@@ -35,7 +35,8 @@ abstract class Structure {
       if (process.out == quantumCounter) auxiliar.add(process);
     });
 
-    for (var i = 0; i < auxiliar.length; i++) {
+    int length = auxiliar.length;
+    for (var i = 0; i < length; i++) {
       Process process = _takeProcess(auxiliar);
       _list.remove(process);
       processes.add(process);

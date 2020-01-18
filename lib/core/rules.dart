@@ -32,8 +32,8 @@ class InputRules {
   List<Structure> get structures => _structures;
 
   InputRules(this._structures) {
-    _structures.add(StructureQueue(Status.finished));
     _structures.add(StructureQueue(Status.inAction));
     _structures.add(StructureQueue(Status.lost));
+    _structures.add(StructureQueue(Status.finished));
   }
 }

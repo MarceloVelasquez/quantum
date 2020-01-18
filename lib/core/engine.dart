@@ -56,8 +56,8 @@ class Engine {
     Process process;
     int quantumCounter = 1;
 
-    _data.processes.forEach((process) {
-      _addTrace(Type.initial, process, Status.newed);
+    _data.processes.forEach((item) {
+      _addTrace(Type.initial, item, Status.newed);
     });
 
     _addQuantum(_quantum);
@@ -92,27 +92,25 @@ class Engine {
 
       List<Process> processes = _processor.locked.takeProcesses(quantumCounter);
       if (processes != null) {
-        processes.forEach((process) {
-          if (_data.das(process.blocker) != null) {
-            process.out = quantumCounter + _data.das(process.blocker);
-            _addTrace(Type.blocked, process, Status.suspended, process.blocker);
+        processes.forEach((item) {
+          if (_data.das(item.blocker) != null) {
+            item.out = quantumCounter + _data.das(item.blocker);
+            _addTrace(Type.blocked, item, Status.suspended, item.blocker);
+          } else if (item.isFinished) {
+            _addTrace(Type.generic, item, Status.lost);
           } else {
-            if (process.isFinished) {
-              _addTrace(Type.generic, process, Status.lost);
-            } else {
-              _addTrace(Type.generic, process, Status.ready);
-            }
+            _addTrace(Type.generic, item, Status.ready);
           }
         });
       }
 
       processes = _processor.suspended.takeProcesses(quantumCounter);
       if (processes != null) {
-        processes.forEach((process) {
-          if (process.isFinished) {
-            _addTrace(Type.generic, process, Status.lost);
+        processes.forEach((item) {
+          if (item.isFinished) {
+            _addTrace(Type.generic, item, Status.lost);
           } else {
-            _addTrace(Type.generic, process, Status.ready);
+            _addTrace(Type.generic, item, Status.ready);
           }
         });
       }
